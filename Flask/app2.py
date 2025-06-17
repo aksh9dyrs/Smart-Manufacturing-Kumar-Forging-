@@ -133,7 +133,7 @@ st.set_page_config(
 )
 
 # ----------------- API Keys -----------------
-OPENAI_API_KEY = "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"
+OPENAI_API_KEY = "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"
 os.environ["OPENAI_API_KEY"] = OPENAI_API_KEY
 
 # ----------------- Custom CSS -----------------

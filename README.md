@@ -1,8 +1,6 @@
+# 🏠 Smart Manufacturing AI Dashboard(Kumar Forging Limited)
 
-
-# 🏭 Smart Manufacturing AI Dashboard
-
-An AI-powered, full-stack smart manufacturing analytics dashboard combining vector search, event insights, and large language models (LLMs). It supports real-time data retrieval, similarity search using embeddings, interactive querying with LLMs, and autonomous AI agent assistance.
+An AI-powered, full-stack smart manufacturing analytics dashboard combining vector search, event insights, and large language models (LLMs). It supports real-time data retrieval, similarity search using embeddings, interactive querying with LLMs, RAG evaluation, and autonomous AI agent assistance.
 
 ---
 
@@ -11,90 +9,85 @@ An AI-powered, full-stack smart manufacturing analytics dashboard combining vect
 This project enables manufacturers to:
 
 * Track events like **Breakdowns**, **Production**, and **Maintenance**
-* Query and analyze using **LLMs (Gemini + LLaMA)**
-* Visualize events using **UMAP**
-* Ask intelligent questions and get summarized insights
-* Evaluate AI-generated answers using **RAGAS metrics**
-* Use a **multi-agent system** that mimics human-level support
+* Query and analyze data using **LLMs**: Google **Gemini 1.5 Flash** and Meta **LLaMA 2** (future scope)
+* Visualize event embeddings using **UMAP**
+* Get summarized insights using **RAG** + LLMs
+* Evaluate AI-generated responses using **RAGAS**
+* Interact with a **multi-agent system** that mimics human support
 
 ---
 
 ## 🧠 Features
 
-| Feature                             | Description                                                               |
-| ----------------------------------- | ------------------------------------------------------------------------- |
-| 🔍 **Event Search & Filtering**     | Retrieve, filter, and view all event types from PostgreSQL                |
-| 📐 **Cosine Similarity Engine**     | Compute similarity between events using `pgvector` and cosine metrics     |
-| 🧠 **Ask LLaMA/Gemini**             | Ask questions about the data using LLaMA 2 (local) or Gemini (cloud)      |
-| 🌐 **Web Search Agent**             | Combine internal data with real-time web info using Google & Wikipedia    |
-| 🤖 **AI Agent Assistant**           | Embedding + Prompt-based assistant for similarity, summaries, and RAG     |
-| 📊 **UMAP Embedding Visualization** | Cluster event embeddings for pattern analysis                             |
-| 📈 **RAGAS Evaluation**             | Evaluate QA system on metrics like faithfulness, context recall, and more |
-| 🔐 **Secure API Key Handling**      | Uses `.env` for OpenAI keys and environment variables                     |
+| Feature                     | Description                                                               |
+| --------------------------- | ------------------------------------------------------------------------- |
+| 🔍 Event Search & Filtering | Retrieve, filter, and view all event types from PostgreSQL                |
+| 📊 Cosine Similarity Engine | Compute similarity between events using pgvector and cosine metrics       |
+| 🧠 Ask Gemini               | Ask questions about the data using Gemini (cloud LLM)                     |
+| 🌐 Web Search Agent         | Combine internal data with Google & Wikipedia results                     |
+| 🤖 AI Agent Assistant       | Embedding + Prompt-based assistant with summaries and insights            |
+| 📊 UMAP Visualization       | Cluster event embeddings to discover patterns                             |
+| 📈 RAGAS Evaluation         | Evaluate QA system on faithfulness, context recall, and relevancy metrics |
+| 🔐 Secure API Key Handling  | Uses `.env` for environment-based key management                          |
 
 ---
 
-## 🧑‍💻 Tech Stack
+## 🧱 Tech Stack
 
-| Layer             | Tech                                                                                         |
-| ----------------- | -------------------------------------------------------------------------------------------- |
-| **Frontend**      | [Streamlit](https://streamlit.io)                                                            |
-| **Backend**       | [Flask](https://flask.palletsprojects.com/) for LLaMA API                                    |
-| **Database**      | [PostgreSQL](https://www.postgresql.org/) + [pgvector](https://github.com/pgvector/pgvector) |
-| **LLMs**          | Google Gemini (`google-generativeai`) and Meta LLaMA 2 (via API)                             |
-| **AI Agent**      | Embedding-based reasoning, Gemini prompts, similarity explanation                            |
-| **Evaluation**    | [RAGAS](https://github.com/explodinggradients/ragas) QA scoring                              |
-| **Visualization** | `UMAP`, `matplotlib`                                                                         |
-| **Search Tools**  | `wikipedia`, `googlesearch-python`, `BeautifulSoup`                                          |
-| **Security**      | `.env` secrets management via `python-dotenv`                                                |
+| Layer         | Tech                                                            |
+| ------------- | --------------------------------------------------------------- |
+| Frontend      | Streamlit                                                       |
+| Backend       | (Handled within Streamlit; optionally extensible via API)       |
+| Database      | PostgreSQL + pgvector                                           |
+| LLMs          | Google Gemini 1.5 Flash (via `google-generativeai`)             |
+| AI Agent      | Gemini + embedding similarity search + contextual QA generation |
+| Evaluation    | RAGAS metrics (faithfulness, relevancy, recall, precision)      |
+| Visualization | UMAP, matplotlib                                                |
+| Search Tools  | Wikipedia API, Googlesearch Python, BeautifulSoup               |
+| Security      | python-dotenv (.env based secrets loading)                      |
 
 ---
 
 ## 📂 Project Structure
 
-```bash
+```
 .
-├── app.py                # Flask API for LLaMA-based interaction
-├── app2.py               # Main Streamlit app with Gemini + RAG support
-├── ragas_evaluation.py   # Evaluation pipeline for LLM responses
+├── app2.py               # Streamlit app with Gemini and RAG support
+├── ragas_evaluation.py   # Evaluation pipeline for RAGAS metrics
+├── test_ragas.py         # Test script for validating RAGAS installation
 ├── requirements.txt      # Python dependencies
-├── .env                  # (Create this file to store your API keys securely)
+├── .env                  # Store your API keys securely (not committed)
 ```
 
 ---
 
-## 🛡️ OpenAI API Key Usage
+## 🔒 API Key Handling
 
-This project uses OpenAI's API for:
+Use `.env` for secure API key management:
 
-* Fallback AI generation (if Gemini fails or is disabled)
-* Custom RAG prompts and summaries
-
-### 🔐 Secure Setup
-
-**Step 1: Create a `.env` file**
+1. Create a `.env` file:
 
 ```bash
 touch .env
 ```
 
-**Step 2: Add your API key to `.env`**
+2. Add your keys:
 
 ```env
-OPENAI_API_KEY=sk-xxxxxxx
+OPENAI_API_KEY=sk-xxxxxxxxxxxxxx
+GEMINI_API_KEY=your-gemini-key
 ```
 
-**Step 3: Load it securely in Python**
+3. Load securely:
 
 ```python
 from dotenv import load_dotenv
 import os
-
 load_dotenv()
 api_key = os.getenv("OPENAI_API_KEY")
 ```
 
-> 🔒 Avoid hardcoding API keys directly in scripts (`app2.py`).
+**Avoid hardcoding keys in `app2.py`.**
 
 ---
 
@@ -107,7 +100,7 @@ git clone https://github.com/yourusername/smart-manufacturing-dashboard.git
 cd smart-manufacturing-dashboard
 ```
 
-### 2. Install Requirements
+### 2. Install Dependencies
 
 ```bash
 pip install -r requirements.txt
@@ -115,27 +108,21 @@ pip install -r requirements.txt
 
 ### 3. Set Up PostgreSQL
 
-Ensure `pgvector` extension is installed, and `manufacturing_events` table is present.
+Ensure you have `pgvector` extension and the `manufacturing_events` table.
 
-### 4. Run the App
+### 4. Run Application
 
-* For Streamlit Dashboard:
+**Streamlit App:**
 
-  ```bash
-  streamlit run app2.py
-  ```
-
-* For LLaMA Flask API:
-
-  ```bash
-  python app.py
-  ```
+```bash
+streamlit run app2.py
+```
 
 ---
 
-## 📄 `requirements.txt`
+## 📊 Requirements
 
-```txt
+```
 streamlit>=1.24.0
 pandas>=1.5.0
 psycopg2-binary>=2.9.5
@@ -153,28 +140,30 @@ python-dotenv>=1.0.0
 
 ---
 
-## 📊 RAG Evaluation (RAGAS)
+## 📊 RAG Evaluation with RAGAS
 
-Evaluate the system’s question-answering quality using:
+Run the `ragas_evaluation.py` script to:
 
-* ✅ **Faithfulness**
-* ✅ **Answer Relevancy**
-* ✅ **Context Recall**
-* ✅ **Context Precision**
+* Generate synthetic QA pairs from your DB
+* Use Gemini to answer questions
+* Score responses using:
 
-Found in `ragas_evaluation.py`, where synthetic QA pairs are evaluated using your custom RAG pipeline.
+  * ✅ Faithfulness
+  * ✅ Answer Relevancy
+  * ✅ Context Recall
+  * ✅ Context Precision
 
 ---
 
-## 📸 Screenshots
+## 🖼️ Screenshots
 
-*Add screenshots of:*
+Include screenshots of:
 
-* Dashboard home
-* Similarity results
-* AI-generated answers
-* UMAP plots
-* RAGAS scores
+* Dashboard Home View
+* Event Similarity Results
+* AI-generated Answers
+* UMAP Cluster Plots
+* RAG Evaluation Metrics
 
 ---
 
@@ -183,15 +172,17 @@ Found in `ragas_evaluation.py`, where synthetic QA pairs are evaluated using you
 **Aksh Kumar**
 AI Researcher | Manufacturing Data Engineer
 📧 [aksh@example.com](mailto:aksh@example.com)
-🔗 [LinkedIn](https://linkedin.com/in/yourname) • [GitHub](https://github.com/yourusername)
+[LinkedIn](https://linkedin.com/in/your-profile) | [GitHub](https://github.com/yourusername)
 
 ---
 
 ## 📌 Future Enhancements
 
-* 📡 Deploy with Docker for production
-* 🌐 Host online via Streamlit Cloud or Render
-* 📈 Time-series forecasting of events
-* 🔐 OAuth-based login for dashboard access
+* 📡 Deploy with Docker
+* 🌐 Host via Streamlit Cloud or Render
+* 📊 Add Time-series Forecasting
+* 🔐 Add OAuth Login for Secure Access
 
+---
 
+> Built with passion for smart factories and real-time AI-driven insights.
